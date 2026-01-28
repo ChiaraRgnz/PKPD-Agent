@@ -1,0 +1,85 @@
+{
+  "study": "Acocella",
+  "year": 1984,
+  "reference": "https://www.ncbi.nlm.nih.gov/pubmed/6473487",
+  "time_unit": "h",
+  "conc_unit": "\u00b5g/mL",
+  "dv_type": "concentration",
+  "n_participants": 18,
+  "n_timepoints_min": 7,
+  "n_timepoints_max": 7,
+  "n_conditions": 9,
+  "n_observations": 126,
+  "lloq": 0.2,
+  "cleaning_counts": {
+    "n_missing_removed": 0,
+    "n_negative_conc_set_to_zero": 0,
+    "n_bloq_imputed": 0,
+    "n_outliers_removed": 0,
+    "n_non_concentration_rows_removed": 0
+  },
+  "dosing_times_hours": [
+    0.0
+  ],
+  "dosing_vs_first_positive_violations": 0,
+  "columns_moved_to_metadata": [],
+  "columns_removed_zero_only": [],
+  "covariates": [
+    {
+      "name": "pk_row_id",
+      "type": "numeric",
+      "min": null,
+      "max": null,
+      "time_varying": true
+    },
+    {
+      "name": "Condition",
+      "type": "numeric",
+      "min": null,
+      "max": null,
+      "time_varying": false
+    },
+    {
+      "name": "participant_id",
+      "type": "numeric",
+      "min": 30.0,
+      "max": 47.0,
+      "time_varying": false
+    },
+    {
+      "name": "Time",
+      "type": "numeric",
+      "min": 0.17,
+      "max": 8.0,
+      "time_varying": true
+    },
+    {
+      "name": "Avg",
+      "type": "numeric",
+      "min": 0.27,
+      "max": 38.42,
+      "time_varying": true
+    },
+    {
+      "name": "Grouping",
+      "type": "numeric",
+      "min": null,
+      "max": null,
+      "time_varying": false
+    },
+    {
+      "name": "_row_index",
+      "type": "numeric",
+      "min": 219.0,
+      "max": 344.0,
+      "time_varying": true
+    },
+    {
+      "name": "Dose",
+      "type": "numeric",
+      "min": 600.0,
+      "max": 1200.0,
+      "time_varying": false
+    }
+  ]
+}

@@ -21,11 +21,11 @@ from .io_utils import read_rows
 from .model import group_by_subject
 
 
-DATA_CSV = Path("data/pkpd_arnaud_Acocella_1984_Data - Acocella 1984 Data.csv")
-META_JSON = Path("data/Acocella 1984 Metadata.json")
+DATA_CSV = Path("data/pkpd_acocella_1984_data.csv")
+META_JSON = Path("data/acocella_1984_metadata.json")
 OUT_RESULTS = Path("poc/results.csv")
 OUT_REPORT = Path("poc/report.md")
-PAPER_PDF = Path("data/Public Data for Local Test.pdf")
+PAPER_PDF = Path("data/acocella_1984_paper.pdf")
 
 MAX_ITERATIONS = 3
 NO_IMPROVEMENT_STOP = 2
