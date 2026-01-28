@@ -1,0 +1,16 @@
+[project]
+name = "pkpd-agent-poc"
+version = "0.1.0"
+description = "Minimal PK agent POC with optional LLM paper reader."
+requires-python = ">=3.9"
+dependencies = [
+  "anthropic>=0.76.0",
+  "pdfplumber>=0.11.8",
+]
+
+[project.optional-dependencies]
+local = [
+  "transformers>=4.40.0",
+  "bitsandbytes>=0.43.0",
+  "torch>=2.0.0",
+]
