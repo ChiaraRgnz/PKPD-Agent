@@ -30,6 +30,19 @@ export PARALLEL_AGENTS=1
 python3 -m poc.agent_poc
 ```
 
+## Validation (simple)
+
+Generate residuals, a short summary, and optional plots:
+
+```bash
+python3 -m poc.validate
+```
+
+Outputs:
+- `poc/validation_residuals.csv`
+- `poc/validation_summary.md`
+- `poc/plots/obs_vs_pred.png` (if matplotlib is installed)
+
 ## Local LLM option (HF)
 
 You can switch to a local Hugging Face model for paper extraction:
@@ -56,9 +69,3 @@ Notes:
 - No population estimation (no mixed effects)
 - Grid‑search fit (slow but dependency‑free)
 - No graphical diagnostics (no plots)
-
-## Next steps (if you want to push it)
-
-- Nonlinear fit (SciPy) + CIs
-- Two‑compartment model or covariates
-- Auto‑generate a richer report (Markdown + figures)
