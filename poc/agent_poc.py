@@ -7,6 +7,7 @@ Orchestrates a multi-agent loop with stop criteria.
 from __future__ import annotations
 
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
 
 from .agents import (
     AgentState,
@@ -38,11 +39,26 @@ def run_agent_loop(state: AgentState) -> None:
     agents = [agent_inspect, agent_fit_individual, agent_fit_pooled]
     iteration = 0
     while True:
-        for agent in agents:
-            agent(state)
         provider = _llm_provider()
         model_name = ANTHROPIC_MODEL if provider == "anthropic" else _local_model()
-        agent_read_paper(state, PAPER_PDF, _anthropic_key(), model_name, provider)
+        paper_future = None
+        if _parallel_enabled():
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                paper_future = pool.submit(
+                    agent_read_paper,
+                    state,
+                    PAPER_PDF,
+                    _anthropic_key(),
+                    model_name,
+                    provider,
+                )
+                for agent in agents:
+                    agent(state)
+                paper_future.result()
+        else:
+            for agent in agents:
+                agent(state)
+            agent_read_paper(state, PAPER_PDF, _anthropic_key(), model_name, provider)
         agent_report(state, OUT_RESULTS, OUT_REPORT, META_JSON)
         if should_stop(state, iteration, MAX_ITERATIONS, NO_IMPROVEMENT_STOP):
             break
@@ -95,6 +111,13 @@ def _smoke_subset(rows):
     first_id = rows[0].subject_id
     subset = [r for r in rows if r.subject_id == first_id][:5]
     return subset
+
+
+def _parallel_enabled() -> bool:
+    """Return True if PARALLEL_AGENTS is enabled."""
+    import os
+
+    return os.environ.get("PARALLEL_AGENTS", "0").strip() == "1"
 
 
 if __name__ == "__main__":

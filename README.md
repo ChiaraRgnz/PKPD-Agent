@@ -21,6 +21,15 @@ Outputs:
 - `poc/results.csv` (per‑subject estimated parameters)
 - `poc/report.md` (short POC report, includes paper insights if LLM enabled)
 
+## Parallel agents
+
+You can run the paper-reading agent in parallel with the fitting steps:
+
+```bash
+export PARALLEL_AGENTS=1
+python3 -m poc.agent_poc
+```
+
 ## Local LLM option (HF)
 
 You can switch to a local Hugging Face model for paper extraction:
