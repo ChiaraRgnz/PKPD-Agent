@@ -52,6 +52,8 @@ def run_agent_loop(state: AgentState) -> None:
 def main() -> None:
     """Entry point: load data, build state, run agent loop."""
     rows = read_rows(DATA_CSV)
+    if _smoke_test_enabled():
+        rows = _smoke_subset(rows)
     by_subject = group_by_subject(rows)
     state = AgentState(rows=rows, by_subject=by_subject)
     run_agent_loop(state)
@@ -76,6 +78,23 @@ def _local_model() -> str:
     import os
 
     return os.environ.get("LOCAL_MODEL_NAME", LOCAL_MODEL)
+
+
+def _smoke_test_enabled() -> bool:
+    """Return True if SMOKE_TEST is enabled."""
+    import os
+
+    return os.environ.get("SMOKE_TEST", "0").strip() == "1"
+
+
+def _smoke_subset(rows):
+    """Return a tiny subset for low-resource smoke testing."""
+    # Pick first subject and first 5 observations.
+    if not rows:
+        return rows
+    first_id = rows[0].subject_id
+    subset = [r for r in rows if r.subject_id == first_id][:5]
+    return subset
 
 
 if __name__ == "__main__":
