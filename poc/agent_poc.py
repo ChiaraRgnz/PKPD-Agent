@@ -7,6 +7,7 @@ Orchestrates a multi-agent loop with stop criteria.
 from __future__ import annotations
 
 from pathlib import Path
+import math
 from concurrent.futures import ThreadPoolExecutor
 
 from .agents import (
@@ -55,6 +56,8 @@ def run_agent_loop(state: AgentState) -> None:
                 for agent in agents:
                     agent(state)
                 paper_future.result()
+            if not _gate_passed(state):
+                break
         else:
             for agent in agents:
                 agent(state)
@@ -118,6 +121,31 @@ def _parallel_enabled() -> bool:
     import os
 
     return os.environ.get("PARALLEL_AGENTS", "0").strip() == "1"
+
+
+def _gate_passed(state: AgentState) -> bool:
+    """Inline gate: only proceed if pooled RMSE <= threshold."""
+    threshold = _gate_max_rmse()
+    if threshold is None:
+        return True
+    if state.pooled_fit is None:
+        return False
+    pooled_sse, _, _ = state.pooled_fit
+    pooled_rmse = math.sqrt(pooled_sse / max(len(state.rows), 1))
+    return pooled_rmse <= threshold
+
+
+def _gate_max_rmse() -> float | None:
+    """Read RMSE gate threshold from env, or None if unset."""
+    import os
+
+    val = os.environ.get("GATE_MAX_RMSE", "").strip()
+    if not val:
+        return None
+    try:
+        return float(val)
+    except ValueError:
+        return None
 
 
 if __name__ == "__main__":

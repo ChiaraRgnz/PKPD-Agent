@@ -30,6 +30,14 @@ export PARALLEL_AGENTS=1
 python3 -m poc.agent_poc
 ```
 
+Optional gate (only applied when parallel is enabled):
+
+```bash
+export PARALLEL_AGENTS=1
+export GATE_MAX_RMSE=2.0
+python3 -m poc.agent_poc
+```
+
 ## Validation (simple)
 
 Generate residuals, a short summary, and optional plots:
